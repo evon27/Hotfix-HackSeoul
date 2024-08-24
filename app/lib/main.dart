@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'overview.dart' as overview;
+import 'portfolio.dart' as portfolio;
 
 void main() {
   runApp(const MainApp());
@@ -9,11 +11,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: const Page(),
-        theme: ThemeData(
-            useMaterial3: true,
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal)));
+    return const MaterialApp(
+      home: SafeArea(
+        child: Page()));
+
   }
 }
 
@@ -30,6 +31,7 @@ class PageState extends State<Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFFFFFFF),
       bottomNavigationBar: ClipRRect(
           borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(30), topRight: Radius.circular(30)),
@@ -49,7 +51,7 @@ class PageState extends State<Page> {
             selectedIndex: currentPageIndex,
             labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
           )),
-      body: <Widget>[Container(), Overview(), Container()][currentPageIndex],
+      body: <Widget>[Container(), const Overview(), const portfolio.Portfolio()][currentPageIndex],
     );
   }
 }
@@ -59,12 +61,15 @@ class Overview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-        padding: EdgeInsets.all(30),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Text("Your Balances:"), Text("1,048,750 ₩")],
-        ));
+    return const SingleChildScrollView(
+        child: Padding(
+            padding: EdgeInsets.all(40),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [overview.Overview(), overview.Spending()],
+            ))
+    );
+
   }
 }
